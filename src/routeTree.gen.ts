@@ -10,33 +10,141 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AssistantRouteImport } from './routes/assistant'
+import { Route as CalendrierRouteImport } from './routes/calendrier'
+import { Route as ConversationsRouteImport } from './routes/conversations'
+import { Route as DocumentsRouteImport } from './routes/documents'
+import { Route as MemoireRouteImport } from './routes/memoire'
+import { Route as ParametresRouteImport } from './routes/parametres'
+import { Route as ProjetsRouteImport } from './routes/projets'
+import { Route as TachesRouteImport } from './routes/taches'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AssistantRoute = AssistantRouteImport.update({
+  id: '/assistant',
+  path: '/assistant',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CalendrierRoute = CalendrierRouteImport.update({
+  id: '/calendrier',
+  path: '/calendrier',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ConversationsRoute = ConversationsRouteImport.update({
+  id: '/conversations',
+  path: '/conversations',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocumentsRoute = DocumentsRouteImport.update({
+  id: '/documents',
+  path: '/documents',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MemoireRoute = MemoireRouteImport.update({
+  id: '/memoire',
+  path: '/memoire',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ParametresRoute = ParametresRouteImport.update({
+  id: '/parametres',
+  path: '/parametres',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProjetsRoute = ProjetsRouteImport.update({
+  id: '/projets',
+  path: '/projets',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TachesRoute = TachesRouteImport.update({
+  id: '/taches',
+  path: '/taches',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/assistant': typeof AssistantRoute
+  '/calendrier': typeof CalendrierRoute
+  '/conversations': typeof ConversationsRoute
+  '/documents': typeof DocumentsRoute
+  '/memoire': typeof MemoireRoute
+  '/parametres': typeof ParametresRoute
+  '/projets': typeof ProjetsRoute
+  '/taches': typeof TachesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/assistant': typeof AssistantRoute
+  '/calendrier': typeof CalendrierRoute
+  '/conversations': typeof ConversationsRoute
+  '/documents': typeof DocumentsRoute
+  '/memoire': typeof MemoireRoute
+  '/parametres': typeof ParametresRoute
+  '/projets': typeof ProjetsRoute
+  '/taches': typeof TachesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/assistant': typeof AssistantRoute
+  '/calendrier': typeof CalendrierRoute
+  '/conversations': typeof ConversationsRoute
+  '/documents': typeof DocumentsRoute
+  '/memoire': typeof MemoireRoute
+  '/parametres': typeof ParametresRoute
+  '/projets': typeof ProjetsRoute
+  '/taches': typeof TachesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/assistant'
+    | '/calendrier'
+    | '/conversations'
+    | '/documents'
+    | '/memoire'
+    | '/parametres'
+    | '/projets'
+    | '/taches'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/assistant'
+    | '/calendrier'
+    | '/conversations'
+    | '/documents'
+    | '/memoire'
+    | '/parametres'
+    | '/projets'
+    | '/taches'
+  id:
+    | '__root__'
+    | '/'
+    | '/assistant'
+    | '/calendrier'
+    | '/conversations'
+    | '/documents'
+    | '/memoire'
+    | '/parametres'
+    | '/projets'
+    | '/taches'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AssistantRoute: typeof AssistantRoute
+  CalendrierRoute: typeof CalendrierRoute
+  ConversationsRoute: typeof ConversationsRoute
+  DocumentsRoute: typeof DocumentsRoute
+  MemoireRoute: typeof MemoireRoute
+  ParametresRoute: typeof ParametresRoute
+  ProjetsRoute: typeof ProjetsRoute
+  TachesRoute: typeof TachesRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +156,75 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/assistant': {
+      id: '/assistant'
+      path: '/assistant'
+      fullPath: '/assistant'
+      preLoaderRoute: typeof AssistantRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/calendrier': {
+      id: '/calendrier'
+      path: '/calendrier'
+      fullPath: '/calendrier'
+      preLoaderRoute: typeof CalendrierRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/conversations': {
+      id: '/conversations'
+      path: '/conversations'
+      fullPath: '/conversations'
+      preLoaderRoute: typeof ConversationsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/documents': {
+      id: '/documents'
+      path: '/documents'
+      fullPath: '/documents'
+      preLoaderRoute: typeof DocumentsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/memoire': {
+      id: '/memoire'
+      path: '/memoire'
+      fullPath: '/memoire'
+      preLoaderRoute: typeof MemoireRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/parametres': {
+      id: '/parametres'
+      path: '/parametres'
+      fullPath: '/parametres'
+      preLoaderRoute: typeof ParametresRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/projets': {
+      id: '/projets'
+      path: '/projets'
+      fullPath: '/projets'
+      preLoaderRoute: typeof ProjetsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/taches': {
+      id: '/taches'
+      path: '/taches'
+      fullPath: '/taches'
+      preLoaderRoute: typeof TachesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AssistantRoute: AssistantRoute,
+  CalendrierRoute: CalendrierRoute,
+  ConversationsRoute: ConversationsRoute,
+  DocumentsRoute: DocumentsRoute,
+  MemoireRoute: MemoireRoute,
+  ParametresRoute: ParametresRoute,
+  ProjetsRoute: ProjetsRoute,
+  TachesRoute: TachesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
