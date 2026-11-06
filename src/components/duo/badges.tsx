@@ -1,3 +1,4 @@
+import type { ReactNode, ComponentType } from "react";
 import { Lock, Users, FlaskConical } from "lucide-react";
 import type { Visibility } from "@/domain/types";
 import { cn } from "@/lib/utils";
@@ -28,7 +29,7 @@ export function DemoBadge({ label = "Démo", className }: { label?: string; clas
   );
 }
 
-export function PageHeader({ title, subtitle, actions }: { title: string; subtitle?: string; actions?: React.ReactNode }) {
+export function PageHeader({ title, subtitle, actions }: { title: string; subtitle?: string; actions?: ReactNode }) {
   return (
     <header className="mb-6 flex flex-wrap items-end justify-between gap-4">
       <div>
@@ -40,7 +41,7 @@ export function PageHeader({ title, subtitle, actions }: { title: string; subtit
   );
 }
 
-export function EmptyState({ icon: Icon, title, children }: { icon: React.ComponentType<{ className?: string }>; title: string; children?: React.ReactNode }) {
+export function EmptyState({ icon: Icon, title, children }: { icon: ComponentType<{ className?: string }>; title: string; children?: ReactNode }) {
   return (
     <div className="flex flex-col items-center rounded-2xl border border-dashed bg-card/50 px-6 py-12 text-center">
       <Icon className="mb-3 h-8 w-8 text-muted-foreground" />
