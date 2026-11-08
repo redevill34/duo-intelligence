@@ -190,7 +190,8 @@ export interface Reminder {
   done: boolean;
 }
 
-export type NotificationKind = "reminder" | "task" | "shopping" | "memory_proposal" | "shared_ai" | "event_shared";
+export type NotificationKind =
+  "reminder" | "task" | "shopping" | "memory_proposal" | "shared_ai" | "event_shared";
 
 export interface AppNotification {
   id: ID;
@@ -212,7 +213,8 @@ export interface Vehicle {
   visibility: "shared";
 }
 
-export type VehicleMaintenanceKind = "revision" | "controle_technique" | "pneus" | "assurance" | "reparation" | "autre";
+export type VehicleMaintenanceKind =
+  "revision" | "controle_technique" | "pneus" | "assurance" | "reparation" | "autre";
 
 export interface VehicleMaintenance {
   id: ID;
@@ -252,7 +254,8 @@ export interface DocumentMeta {
   createdAt: ISODate;
 }
 
-export type TrashableType = "task" | "event" | "document" | "shopping" | "reminder" | "conversation" | "memory";
+export type TrashableType =
+  "task" | "event" | "document" | "shopping" | "reminder" | "conversation" | "memory";
 
 export interface TrashEntry {
   id: ID;

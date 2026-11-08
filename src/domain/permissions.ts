@@ -38,7 +38,12 @@ export function isMember(space: AccessContext["space"], userId: ID): boolean {
 }
 
 /** Retourne true uniquement pour les cas explicitement listés. */
-export function can(actor: Actor | null | undefined, action: Action, res: Resource | null | undefined, ctx: AccessContext): boolean {
+export function can(
+  actor: Actor | null | undefined,
+  action: Action,
+  res: Resource | null | undefined,
+  ctx: AccessContext,
+): boolean {
   if (!actor?.userId || !res || !ctx?.space) return false;
   if (res.spaceId !== ctx.space.id) return false;
   if (!isMember(ctx.space, actor.userId)) return false;
@@ -74,7 +79,10 @@ export function isTrashExpired(deletedAt: string, now: Date = new Date()): boole
   return now.getTime() - new Date(deletedAt).getTime() >= ms;
 }
 
-export function purgeTrash<T extends { deletedAt: string }>(entries: T[], now: Date = new Date()): T[] {
+export function purgeTrash<T extends { deletedAt: string }>(
+  entries: T[],
+  now: Date = new Date(),
+): T[] {
   return entries.filter((e) => !isTrashExpired(e.deletedAt, now));
 }
 
