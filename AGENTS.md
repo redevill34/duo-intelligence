@@ -28,3 +28,10 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Project rules
+- All access decisions go through `src/domain/permissions.ts` (`can`, deny-by-default); why: one auditable place, to be mirrored server-side later.
+- Client-side rules are a first barrier only; never describe them as secure — a future backend must re-enforce them.
+- Input validation lives in `src/domain/schemas.ts` (zod); why: same schemas reusable by a future server.
+- New repository areas are optional fields on `Repositories` until implemented; why: existing demo stays compatible.
+- Local-first: no remote backend, paid service or cloud storage without explicit user approval.
