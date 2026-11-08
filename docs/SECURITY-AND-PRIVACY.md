@@ -11,3 +11,6 @@ Indispensable avant toute donnée réelle :
 - Audits et tests d'intrusion indépendants.
 
 PWA : manifeste uniquement, **aucun service worker**, donc aucune donnée privée ou réponse IA mise en cache. Aucune donnée démo dans localStorage.
+
+## Lot 1 (réalisé)
+Règles d'accès centralisées et testées (32 tests verts) : privé = propriétaire seul, commun = 2 membres, tiers refusé, espace à 3 refusé, mémoire privée non partageable, IA commune bloquée dès suspension, 4e appareil refusé, corbeille purgée à 180 j. **Toujours contournable côté client** tant que le backend n'existe pas.

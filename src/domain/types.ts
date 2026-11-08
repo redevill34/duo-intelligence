@@ -78,11 +78,7 @@ export interface ProposalApproval {
 }
 
 export type ProposalStatus =
-  | "pending"
-  | "approved_by_me"
-  | "awaiting_other"
-  | "confirmed"
-  | "refused";
+  "pending" | "approved_by_me" | "awaiting_other" | "confirmed" | "refused";
 
 export interface MemoryProposal {
   id: ID;
@@ -169,3 +165,143 @@ export interface SharedAiStatus {
 
 export type AssistantMode = "support" | "organization" | "ideas" | "analysis";
 export type AssistantScope = "personal" | "shared";
+
+/* ---------- Lot 1 : types complémentaires (V1) ---------- */
+
+export interface ShoppingItem {
+  id: ID;
+  spaceId: ID;
+  label: string;
+  quantity?: string;
+  checked: boolean;
+  addedBy: ID;
+  createdAt: ISODate;
+  /** Liste de courses : toujours commune en V1. */
+  visibility: "shared";
+}
+
+export interface Reminder {
+  id: ID;
+  spaceId: ID;
+  ownerId: ID;
+  title: string;
+  dueAt: ISODate;
+  visibility: Visibility;
+  done: boolean;
+}
+
+export type NotificationKind =
+  "reminder" | "task" | "shopping" | "memory_proposal" | "shared_ai" | "event_shared";
+
+export interface AppNotification {
+  id: ID;
+  spaceId: ID;
+  recipientId: ID;
+  kind: NotificationKind;
+  title: string;
+  createdAt: ISODate;
+  readAt?: ISODate;
+}
+
+/** Module automobile commun. Volontairement sans OBD, carburant, péages ni stationnement. */
+export interface Vehicle {
+  id: ID;
+  spaceId: ID;
+  name: string;
+  plate?: string;
+  mileageKm?: number;
+  visibility: "shared";
+}
+
+export type VehicleMaintenanceKind =
+  "revision" | "controle_technique" | "pneus" | "assurance" | "reparation" | "autre";
+
+export interface VehicleMaintenance {
+  id: ID;
+  vehicleId: ID;
+  kind: VehicleMaintenanceKind;
+  date: ISODate;
+  mileageKm?: number;
+  note?: string;
+}
+
+export interface HomeItem {
+  id: ID;
+  spaceId: ID;
+  name: string;
+  room?: string;
+  visibility: "shared";
+}
+
+export interface HomeMaintenance {
+  id: ID;
+  homeItemId: ID;
+  title: string;
+  date: ISODate;
+  nextDue?: ISODate;
+  note?: string;
+}
+
+/** Métadonnées uniquement : aucun contenu de fichier stocké en V1. */
+export interface DocumentMeta {
+  id: ID;
+  spaceId: ID;
+  ownerId: ID;
+  name: string;
+  mimeType: string;
+  sizeBytes: number;
+  visibility: Visibility;
+  createdAt: ISODate;
+}
+
+export type TrashableType =
+  "task" | "event" | "document" | "shopping" | "reminder" | "conversation" | "memory";
+
+export interface TrashEntry {
+  id: ID;
+  spaceId: ID;
+  ownerId: ID;
+  itemType: TrashableType;
+  itemId: ID;
+  visibility: Visibility;
+  deletedAt: ISODate;
+}
+
+export interface Device {
+  id: ID;
+  userId: ID;
+  label: string;
+  active: boolean;
+  lastSeenAt: ISODate;
+}
+
+export interface Backup {
+  id: ID;
+  userId: ID;
+  target: "local" | "cloud";
+  createdAt: ISODate;
+  sizeBytes: number;
+  encrypted: boolean;
+}
+
+export type DashboardWidget =
+  | "agenda_today"
+  | "tasks"
+  | "shopping"
+  | "reminders"
+  | "garage"
+  | "home"
+  | "projects"
+  | "recent_documents";
+
+export interface DashboardLayout {
+  userId: ID;
+  widgets: DashboardWidget[];
+}
+
+/** Partage volontaire d'un événement personnel (révocable). */
+export interface EventShare {
+  eventId: ID;
+  sharedBy: ID;
+  sharedAt: ISODate;
+}

@@ -1,4 +1,14 @@
-import { Home, MessagesSquare, Sparkles, Brain, CalendarDays, ListChecks, FolderKanban, FileText, Settings } from "lucide-react";
+import {
+  Home,
+  MessagesSquare,
+  Sparkles,
+  Brain,
+  CalendarDays,
+  ListChecks,
+  FolderKanban,
+  FileText,
+  Settings,
+} from "lucide-react";
 
 export const NAV = [
   { to: "/", label: "Accueil", icon: Home },

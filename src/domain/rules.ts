@@ -50,16 +50,26 @@ export function decideProposal(
   };
 }
 
-export function suspendSharedAi(_s: SharedAiStatus, by: ID, now = new Date().toISOString()): SharedAiStatus {
+export function suspendSharedAi(
+  _s: SharedAiStatus,
+  by: ID,
+  now = new Date().toISOString(),
+): SharedAiStatus {
   return { suspended: true, suspendedAt: now, suspendedBy: by, reactivationApprovals: [] };
 }
 
 /** Reactivation requires both members' approval. */
-export function approveReactivation(s: SharedAiStatus, userId: ID, memberIds: ID[]): SharedAiStatus {
+export function approveReactivation(
+  s: SharedAiStatus,
+  userId: ID,
+  memberIds: ID[],
+): SharedAiStatus {
   if (!s.suspended) return s;
   const approvals = Array.from(new Set([...s.reactivationApprovals, userId]));
   const all = memberIds.every((m) => approvals.includes(m));
-  return all ? { suspended: false, reactivationApprovals: [] } : { ...s, reactivationApprovals: approvals };
+  return all
+    ? { suspended: false, reactivationApprovals: [] }
+    : { ...s, reactivationApprovals: approvals };
 }
 
 export function canUseSharedAi(s: SharedAiStatus) {
@@ -67,7 +77,13 @@ export function canUseSharedAi(s: SharedAiStatus) {
 }
 
 /** Actions requiring reinforced confirmation (typed phrase). */
-export const SENSITIVE_ACTIONS = ["share", "permanent_delete", "permissions", "financial", "contractual"] as const;
+export const SENSITIVE_ACTIONS = [
+  "share",
+  "permanent_delete",
+  "permissions",
+  "financial",
+  "contractual",
+] as const;
 export type SensitiveAction = (typeof SENSITIVE_ACTIONS)[number];
 export function requiresReinforcedConfirmation(action: string): action is SensitiveAction {
   return (SENSITIVE_ACTIONS as readonly string[]).includes(action);

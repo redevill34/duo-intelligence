@@ -15,7 +15,9 @@ function Docs() {
       <PageHeader title="Documents" />
       <EmptyState icon={FileText} title="Aucun document">
         L'envoi de fichiers sera disponible une fois le stockage sécurisé mis en place.
-        <div className="mt-4"><Button disabled>Ajouter un document (bientôt)</Button></div>
+        <div className="mt-4">
+          <Button disabled>Ajouter un document (bientôt)</Button>
+        </div>
       </EmptyState>
     </div>
   );
