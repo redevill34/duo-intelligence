@@ -78,11 +78,7 @@ export interface ProposalApproval {
 }
 
 export type ProposalStatus =
-  | "pending"
-  | "approved_by_me"
-  | "awaiting_other"
-  | "confirmed"
-  | "refused";
+  "pending" | "approved_by_me" | "awaiting_other" | "confirmed" | "refused";
 
 export interface MemoryProposal {
   id: ID;

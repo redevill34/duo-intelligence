@@ -25,27 +25,52 @@ function Home() {
   ] as const;
   return (
     <div className="space-y-6">
-      <PageHeader title={`Bonjour, ${me.displayName.split(" ")[0]}`} subtitle="Votre espace partagé, à votre rythme." />
+      <PageHeader
+        title={`Bonjour, ${me.displayName.split(" ")[0]}`}
+        subtitle="Votre espace partagé, à votre rythme."
+      />
       <ReactivationPanel />
       <section className="rounded-2xl bg-hero p-6 text-primary-foreground shadow-soft">
         <p className="text-sm opacity-80">État de l'espace</p>
-        <p className="font-display mt-1 text-2xl">2 / 2 membres · {me.displayName} & {partner.displayName}</p>
-        <p className="mt-2 text-sm opacity-90">IA commune : {sharedAi.suspended ? "suspendue" : "non connectée (démonstration)"} · {tasks.filter((t) => t.status !== "done").length} tâches ouvertes</p>
+        <p className="font-display mt-1 text-2xl">
+          2 / 2 membres · {me.displayName} & {partner.displayName}
+        </p>
+        <p className="mt-2 text-sm opacity-90">
+          IA commune : {sharedAi.suspended ? "suspendue" : "non connectée (démonstration)"} ·{" "}
+          {tasks.filter((t) => t.status !== "done").length} tâches ouvertes
+        </p>
       </section>
       <section aria-label="Raccourcis" className="grid grid-cols-2 gap-3 md:grid-cols-4">
         {shortcuts.map((s) => (
-          <Link key={s.to} to={s.to} className="rounded-2xl border bg-card p-4 shadow-soft transition hover:bg-secondary">
+          <Link
+            key={s.to}
+            to={s.to}
+            className="rounded-2xl border bg-card p-4 shadow-soft transition hover:bg-secondary"
+          >
             <s.icon className="h-5 w-5 text-ring" aria-hidden />
             <p className="mt-2 font-medium">{s.label}</p>
           </Link>
         ))}
       </section>
       <section className="rounded-2xl border bg-card p-5">
-        <div className="mb-3 flex items-center justify-between"><h2 className="font-medium">Activité commune</h2><DemoBadge /></div>
-        {activity.isLoading && <p className="text-sm text-muted-foreground" role="status">Chargement…</p>}
-        {activity.isError && <p className="text-sm text-destructive">Impossible de charger l'activité.</p>}
+        <div className="mb-3 flex items-center justify-between">
+          <h2 className="font-medium">Activité commune</h2>
+          <DemoBadge />
+        </div>
+        {activity.isLoading && (
+          <p className="text-sm text-muted-foreground" role="status">
+            Chargement…
+          </p>
+        )}
+        {activity.isError && (
+          <p className="text-sm text-destructive">Impossible de charger l'activité.</p>
+        )}
         <ul className="space-y-2 text-sm">
-          {activity.data?.map((a) => <li key={a.id} className="text-muted-foreground">{a.summary}</li>)}
+          {activity.data?.map((a) => (
+            <li key={a.id} className="text-muted-foreground">
+              {a.summary}
+            </li>
+          ))}
         </ul>
       </section>
     </div>

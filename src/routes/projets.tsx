@@ -16,9 +16,16 @@ function Projects() {
       <div className="grid gap-4 md:grid-cols-3">
         {projects.map((p) => (
           <article key={p.id} className="rounded-2xl border bg-card p-5 shadow-soft">
-            <div className="flex justify-between"><h2 className="font-medium">{p.name}</h2><PrivacyBadge visibility={p.visibility} /></div>
+            <div className="flex justify-between">
+              <h2 className="font-medium">{p.name}</h2>
+              <PrivacyBadge visibility={p.visibility} />
+            </div>
             <p className="mt-1 text-sm text-muted-foreground">{p.description}</p>
-            <Progress value={p.progress} className="mt-4" aria-label={`Avancement ${p.progress}%`} />
+            <Progress
+              value={p.progress}
+              className="mt-4"
+              aria-label={`Avancement ${p.progress}%`}
+            />
             <p className="mt-1 text-xs text-muted-foreground">{p.progress} %</p>
           </article>
         ))}

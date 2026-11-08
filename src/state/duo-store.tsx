@@ -2,8 +2,22 @@
  * In-memory prototype state (React context). Nothing is persisted:
  * reloading the page resets the demo. This is NOT a security mechanism.
  */
-import { createContext, useCallback, useContext, useMemo, useRef, useState, type ReactNode } from "react";
-import type { MemoryProposal, SharedAiStatus, Task, CalendarEvent, Conversation } from "@/domain/types";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
+import type {
+  MemoryProposal,
+  SharedAiStatus,
+  Task,
+  CalendarEvent,
+  Conversation,
+} from "@/domain/types";
 import { approveReactivation, decideProposal, editProposal, suspendSharedAi } from "@/domain/rules";
 import * as F from "@/services/demo/fixtures";
 
@@ -46,25 +60,63 @@ export function DuoProvider({ children }: { children: ReactNode }) {
     setSharedAi((s) => suspendSharedAi(s, F.ME.id));
   }, []);
 
-  const value = useMemo<DuoState>(() => ({
-    me: F.ME, partner: F.PARTNER, memberIds, sharedAi, suspendShared,
-    approveReactivationAsMe: () => setSharedAi((s) => approveReactivation(s, F.ME.id, memberIds)),
-    simulatePartnerReactivation: () => setSharedAi((s) => approveReactivation(s, F.PARTNER.id, memberIds)),
-    registerSharedRequest: (c) => { inflight.current.add(c); return () => inflight.current.delete(c); },
-    proposals,
-    decide: (id, decision) => setProposals((ps) => ps.map((p) => (p.id === id ? decideProposal(p, F.ME.id, decision) : p))),
-    edit: (id, content) => setProposals((ps) => ps.map((p) => (p.id === id ? editProposal(p, content) : p))),
-    propose: (content) => setProposals((ps) => [{ id: `p-${Date.now()}`, spaceId: F.SPACE.id, proposedBy: F.ME.id, content, version: 1, approvals: [], createdAt: new Date().toISOString() }, ...ps]),
-    tasks, setTasks: (fn) => setTasksState(fn),
-    events, addEvent: (e) => setEvents((es) => [...es, e]),
-    conversations,
-    addSharedConversation: (title) => {
-      const now = new Date().toISOString();
-      const c: Conversation = { id: `c-${Date.now()}`, spaceId: F.SPACE.id, title, visibility: "shared", participantIds: [F.ME.id, F.PARTNER.id], createdBy: F.ME.id, createdAt: now, updatedAt: now };
-      setConversations((cs) => [c, ...cs]);
-      return c;
-    },
-  }), [memberIds, sharedAi, suspendShared, proposals, tasks, events, conversations]);
+  const value = useMemo<DuoState>(
+    () => ({
+      me: F.ME,
+      partner: F.PARTNER,
+      memberIds,
+      sharedAi,
+      suspendShared,
+      approveReactivationAsMe: () => setSharedAi((s) => approveReactivation(s, F.ME.id, memberIds)),
+      simulatePartnerReactivation: () =>
+        setSharedAi((s) => approveReactivation(s, F.PARTNER.id, memberIds)),
+      registerSharedRequest: (c) => {
+        inflight.current.add(c);
+        return () => inflight.current.delete(c);
+      },
+      proposals,
+      decide: (id, decision) =>
+        setProposals((ps) =>
+          ps.map((p) => (p.id === id ? decideProposal(p, F.ME.id, decision) : p)),
+        ),
+      edit: (id, content) =>
+        setProposals((ps) => ps.map((p) => (p.id === id ? editProposal(p, content) : p))),
+      propose: (content) =>
+        setProposals((ps) => [
+          {
+            id: `p-${Date.now()}`,
+            spaceId: F.SPACE.id,
+            proposedBy: F.ME.id,
+            content,
+            version: 1,
+            approvals: [],
+            createdAt: new Date().toISOString(),
+          },
+          ...ps,
+        ]),
+      tasks,
+      setTasks: (fn) => setTasksState(fn),
+      events,
+      addEvent: (e) => setEvents((es) => [...es, e]),
+      conversations,
+      addSharedConversation: (title) => {
+        const now = new Date().toISOString();
+        const c: Conversation = {
+          id: `c-${Date.now()}`,
+          spaceId: F.SPACE.id,
+          title,
+          visibility: "shared",
+          participantIds: [F.ME.id, F.PARTNER.id],
+          createdBy: F.ME.id,
+          createdAt: now,
+          updatedAt: now,
+        };
+        setConversations((cs) => [c, ...cs]);
+        return c;
+      },
+    }),
+    [memberIds, sharedAi, suspendShared, proposals, tasks, events, conversations],
+  );
 
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;
 }

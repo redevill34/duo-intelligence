@@ -5,7 +5,16 @@
  * interfaces carry no security guarantee by themselves.
  */
 import type {
-  CalendarEvent, Conversation, CoupleSpace, Memory, MemoryProposal, Message, Project, Task, User, AuditEvent,
+  CalendarEvent,
+  Conversation,
+  CoupleSpace,
+  Memory,
+  MemoryProposal,
+  Message,
+  Project,
+  Task,
+  User,
+  AuditEvent,
 } from "@/domain/types";
 
 export interface AuthService {

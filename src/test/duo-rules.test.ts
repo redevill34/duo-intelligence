@@ -1,10 +1,26 @@
 import { describe, expect, it } from "vitest";
-import { approveReactivation, canAddMember, decideProposal, editProposal, proposalStatus, suspendSharedAi } from "@/domain/rules";
+import {
+  approveReactivation,
+  canAddMember,
+  decideProposal,
+  editProposal,
+  proposalStatus,
+  suspendSharedAi,
+} from "@/domain/rules";
 import type { MemoryProposal } from "@/domain/types";
 import { simulateReply } from "@/services/ai/simulatedAssistant";
 
-const A = "a", B = "b";
-const base: MemoryProposal = { id: "p", spaceId: "s", proposedBy: A, content: "x", version: 1, approvals: [], createdAt: "" };
+const A = "a",
+  B = "b";
+const base: MemoryProposal = {
+  id: "p",
+  spaceId: "s",
+  proposedBy: A,
+  content: "x",
+  version: 1,
+  approvals: [],
+  createdAt: "",
+};
 
 describe("règles DUO (prototype, non sécuritaire)", () => {
   it("limite l'espace à deux membres", () => {
