@@ -1,6 +1,6 @@
 /**
- * In-memory prototype state (React context). Nothing is persisted:
- * reloading the page resets the demo. This is NOT a security mechanism.
+ * Demo remains in memory; explicit opt-in stores an encrypted local snapshot.
+ * Client-side access rules remain bypassable, not production authorization.
  */
 import {
   createContext,
@@ -68,17 +68,21 @@ export function DuoProvider({ children }: { children: ReactNode }) {
   const [conversations, setConversations] = useState(() => structuredClone(F.conversations));
   const inflight = useRef(new Set<AbortController>());
   const vault = useRef<LocalVault | null>(null);
+  const releaseWriter = useRef<(() => void) | null>(null);
   const [localActive, setLocalActive] = useState(false);
   const [localBusy, setLocalBusy] = useState(false);
   const [localError, setLocalError] = useState("");
   const [saved, setSaved] = useState(false);
   const [backupStatus, setBackupStatus] = useState<{ dailyAt: string | undefined; exportedAt: string | undefined }>({ dailyAt: undefined, exportedAt: undefined });
-  const snapshot = useMemo(() => ({ sharedAi, proposals, tasks, events, conversations }), [sharedAi, proposals, tasks, events, conversations]);
+  const snapshot = useMemo<LocalSnapshot>(() => ({ sharedAi, proposals, tasks, events, conversations }), [sharedAi, proposals, tasks, events, conversations]);
   const latest = useRef(snapshot);
   useEffect(() => { latest.current = snapshot; }, [snapshot]);
   const applySnapshot = useCallback((data: LocalSnapshot) => {
     inflight.current.forEach(c => c.abort()); inflight.current.clear();
-    setSharedAi(data.sharedAi); setProposals(data.proposals); setTasksState(data.tasks);
+    const { suspendedAt, suspendedBy, ...ai } = data.sharedAi;
+    setSharedAi({ ...ai, ...(suspendedAt ? { suspendedAt } : {}), ...(suspendedBy ? { suspendedBy } : {}) });
+    setProposals(data.proposals);
+    setTasksState(data.tasks.map(({ dueDate, projectId, ...task }) => ({ ...task, ...(dueDate ? { dueDate } : {}), ...(projectId ? { projectId } : {}) })));
     setEvents(data.events); setConversations(data.conversations);
   }, []);
   useEffect(() => {
