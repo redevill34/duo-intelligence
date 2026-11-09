@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { PageHeader } from "@/components/duo/badges";
 import { Button } from "@/components/ui/button";
 import { pageHead } from "@/lib/seo";
+import { LocalVaultPanel } from "@/components/duo/LocalVaultPanel";
 
 export const Route = createFileRoute("/parametres")({
   head: () =>
@@ -30,8 +31,9 @@ function Settings() {
     <div>
       <PageHeader
         title="Paramètres"
-        subtitle="Ces fonctions sont à construire : rien n'est encore modifié ni supprimé."
+        subtitle="Coffre et sauvegardes sur cet appareil. Les autres fonctions restent à construire."
       />
+      <LocalVaultPanel />
       <ul className="space-y-3">
         {SECTIONS.map(([t, d]) => (
           <li

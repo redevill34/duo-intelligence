@@ -74,3 +74,105 @@ export const dashboardLayoutInput = z.object({
     .refine((w) => new Set(w).size === w.length, { message: "Widget en double" }),
 });
 export const deviceInput = z.object({ label: text(60) });
+
+// Entire local snapshot: reject unknown fields and malformed imported data.
+const sharedAiSchema = z
+  .object({
+    suspended: z.boolean(),
+    suspendedAt: iso.optional(),
+    suspendedBy: id.optional(),
+    reactivationApprovals: z.array(id).max(2),
+  })
+  .strict();
+export const localSnapshotSchema = z
+  .object({
+    sharedAi: sharedAiSchema,
+    tasks: z
+      .array(
+        taskInput
+          .extend({
+            id,
+            spaceId: id,
+            status: z.enum(["todo", "doing", "done"]),
+            projectId: id.optional(),
+          })
+          .strict(),
+      )
+      .max(10000),
+    events: z
+      .array(
+        z
+          .object({
+            id,
+            spaceId: id,
+            title: text(200),
+            start: iso,
+            end: iso,
+            visibility,
+            ownerId: id,
+          })
+          .strict()
+          .refine((e) => e.end >= e.start),
+      )
+      .max(10000),
+    conversations: z
+      .array(
+        z
+          .object({
+            id,
+            spaceId: id,
+            title: text(120),
+            visibility,
+            participantIds: z.array(id).min(1).max(2),
+            createdBy: id,
+            createdAt: iso,
+            updatedAt: iso,
+          })
+          .strict(),
+      )
+      .max(10000),
+    proposals: z
+      .array(
+        z
+          .object({
+            id,
+            spaceId: id,
+            proposedBy: id,
+            content: text(2000),
+            version: z.number().int().positive(),
+            approvals: z
+              .array(
+                z
+                  .object({
+                    userId: id,
+                    version: z.number().int().positive(),
+                    decision: z.enum(["approved", "refused"]),
+                    decidedAt: iso,
+                  })
+                  .strict(),
+              )
+              .max(100),
+            createdAt: iso,
+          })
+          .strict(),
+      )
+      .max(10000),
+  })
+  .strict();
+export type LocalSnapshot = z.infer<typeof localSnapshotSchema>;
+export const vaultIdentitySchema = z.object({ userId: id, spaceId: id }).strict();
+export const encryptedVaultSchema = z
+  .object({
+    format: z.literal("duo-vault"),
+    version: z.literal(1),
+    kdf: z.literal("PBKDF2-SHA256"),
+    iterations: z.literal(600000),
+    salt: z.string().regex(/^[A-Za-z0-9+/]{22}==$/),
+    iv: z.string().regex(/^[A-Za-z0-9+/]{16}$/),
+    ciphertext: z
+      .string()
+      .min(24)
+      .max(28000000)
+      .regex(/^[A-Za-z0-9+/]+={0,2}$/),
+  })
+  .strict();

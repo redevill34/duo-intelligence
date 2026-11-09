@@ -35,3 +35,5 @@ use the editor.
 - Input validation lives in `src/domain/schemas.ts` (zod); why: same schemas reusable by a future server.
 - New repository areas are optional fields on `Repositories` until implemented; why: existing demo stays compatible.
 - Local-first: no remote backend, paid service or cloud storage without explicit user approval.
+- The optional local vault encrypts a schema-validated store snapshot through `src/services/local`; why: preserve demo behavior and separate storage/cryptography from React. Keys are memory-only and a Web Lock allows one writer tab.
+- App-shell offline uses generated Workbox via vite-plugin-pwa and one guarded registrar; why: cache only build-time static assets and anonymous shell, never private route/API responses. Regenerate after TanStack prerender.
