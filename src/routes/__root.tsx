@@ -124,7 +124,9 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
-  useEffect(() => { void setupOffline().catch(() => {}); }, []);
+  useEffect(() => {
+    void setupOffline().catch(() => {});
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
