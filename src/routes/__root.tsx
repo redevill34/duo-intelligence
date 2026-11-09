@@ -16,6 +16,7 @@ import { DuoProvider } from "@/state/duo-store";
 import { AppShell } from "@/components/duo/AppShell";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { setupOffline } from "@/lib/offline";
 
 function NotFoundComponent() {
   return (
@@ -123,6 +124,7 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  useEffect(() => { void setupOffline().catch(() => {}); }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

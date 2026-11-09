@@ -4,7 +4,7 @@ import { LocalDatabase } from "./database";
 
 // Serialized commits prevent late writes from replacing newer edits. No persisted key.
 export class LocalVault {
-  private key?: CryptoKey;
+  private key: CryptoKey | undefined;
   private salt = "";
   private queue: Promise<unknown> = Promise.resolve();
   constructor(readonly identity: VaultIdentity, private db = new LocalDatabase()) {}

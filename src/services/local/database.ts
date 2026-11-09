@@ -1,7 +1,7 @@
 import { type Envelope, type VaultIdentity } from "./crypto";
 
 const keyFor = (identity: VaultIdentity) => JSON.stringify([identity.userId, identity.spaceId]);
-type RecordValue = { envelope: Envelope; daily?: { envelope: Envelope; createdAt: string }; exportedAt?: string };
+type RecordValue = { envelope: Envelope; daily?: { envelope: Envelope; createdAt: string }; exportedAt?: string | undefined };
 
 export class LocalDatabase {
   constructor(private name = "duo-encrypted-v1") {}
